@@ -49,10 +49,21 @@ def peak_registration_hours(datetimes)
     4 => '16-19',
     5 => '20-23'
   }
-  
-  registration_hours = datetimes.each_with_object(Hash.new(0)) do |datetime, count_hash|
-    count_hash[time_periods[(datetime.hour / 4).floor]] += 1
-  end
+
+  datetimes.each_with_object(Hash.new(0)) { |datetime, count_hash| count_hash[time_periods[(datetime.hour / 4).floor]] += 1} 
+end
+
+def peak_registration_days(datetimes)
+  days_of_week = {
+    0 => 'Sunday',
+    1 => 'Monday',
+    2 => 'Tuesday',
+    3 => 'Wednesday',
+    4 => 'Thursday',
+    5 => 'Friday',
+    6 => 'Saturday'
+  }
+  datetimes.each_with_object(Hash.new(0)) { |datetime, count_hash| count_hash[days_of_week[datetime.wday]] += 1 }
 end
 
 puts 'Event Manager Initialized'
@@ -82,3 +93,4 @@ contents.each do |row|
 end
 
 puts peak_registration_hours(datetimes)
+puts peak_registration_days(datetimes)
